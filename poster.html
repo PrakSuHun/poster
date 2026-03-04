@@ -36,13 +36,48 @@
             box-shadow: 0 40px 80px rgba(0, 0, 0, 0.8);
             transform-origin: top center;
             transform: scale(calc(min(1, (100vh - 80px) / 1920)));
+            transition: transform 0.3s ease;
+        }
+
+        /* ✨ NEW: 텍스트 수정 가능 표시 (에디터 모드) */
+        [contenteditable="true"] {
+            outline: none;
+            transition: all 0.2s;
+            border-radius: 8px;
+        }
+        [contenteditable="true"]:hover {
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+            cursor: text;
+        }
+        [contenteditable="true"]:focus {
+            box-shadow: 0 0 0 3px #6366F1;
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        /* 플로팅 안내 패널 */
+        .editor-hint {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(99, 102, 241, 0.9);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-family: 'Pretendard', sans-serif;
+            font-weight: 700;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            backdrop-filter: blur(10px);
         }
 
         /* =========================================
-           ✨ NEW: 프리미엄 CSS 배경 이펙트 (외부 이미지 X) 
+           프리미엄 CSS 배경 이펙트
            ========================================= */
         
-        /* 1. 은은한 앰비언트 라이트 */
         .ambient-light {
             position: absolute;
             inset: 0;
@@ -52,7 +87,6 @@
             z-index: 1;
         }
 
-        /* 2. 미세한 사이버 닷(Dot) 패턴 */
         .cyber-dots {
             position: absolute;
             inset: 0;
@@ -64,7 +98,6 @@
             -webkit-mask-image: radial-gradient(ellipse at center, transparent 30%, black 100%);
         }
 
-        /* 3. 메인 오브젝트: AI 특이점 (이클립스 효과) */
         .singularity-container {
             position: absolute;
             top: 45%;
@@ -78,7 +111,6 @@
             align-items: center;
         }
 
-        /* 빛나는 바깥쪽 링 */
         .singularity-ring {
             position: absolute;
             width: 800px;
@@ -91,7 +123,6 @@
             animation: pulse-ring 4s ease-in-out infinite alternate;
         }
 
-        /* 회전하는 빛의 띠 (코닉 그라데이션) */
         .singularity-ring::before {
             content: '';
             position: absolute;
@@ -108,13 +139,11 @@
                 #ffffff 70%,
                 transparent 90%
             );
-            /* 가운데를 뚫어서 도넛 모양으로 만듦 */
             mask-image: radial-gradient(transparent 68%, black 69%);
             -webkit-mask-image: radial-gradient(transparent 68%, black 69%);
             animation: spin 8s linear infinite;
         }
 
-        /* 칠흑 같은 중심 코어 */
         .singularity-core {
             position: absolute;
             width: 780px;
@@ -125,7 +154,6 @@
             z-index: 4;
         }
 
-        /* 수평으로 가로지르는 렌즈 플레어(빛 갈라짐) */
         .singularity-flare {
             position: absolute;
             width: 160%;
@@ -137,7 +165,6 @@
             animation: pulse-flare 3s ease-in-out infinite alternate;
         }
 
-        /* 별빛 / 입자들 */
         .particles {
             position: absolute;
             width: 10px;
@@ -151,7 +178,6 @@
         .p2 { top: 70%; left: 80%; animation: float 7s infinite reverse; transform: scale(0.8); opacity: 0.4; }
         .p3 { top: 60%; left: 15%; animation: float 6s infinite; transform: scale(0.4); opacity: 0.7; }
 
-        /* 애니메이션 키프레임 */
         @keyframes spin { 100% { transform: rotate(360deg); } }
         @keyframes pulse-ring { 100% { transform: scale(1.03); opacity: 0.8; } }
         @keyframes pulse-flare { 100% { width: 170%; opacity: 0.6; } }
@@ -159,7 +185,6 @@
 
         /* ========================================= */
 
-        /* 텍스트 콘텐츠 영역 */
         .content-area {
             position: relative;
             z-index: 10;
@@ -169,7 +194,6 @@
             height: 100%;
         }
 
-        /* 상단 타이틀 섹션 */
         .top-section {
             text-align: left;
         }
@@ -212,7 +236,6 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* 하단 콘텐츠 영역 */
         .bottom-section {
             margin-top: auto;
             display: flex;
@@ -220,7 +243,6 @@
             gap: 60px;
         }
 
-        /* 혜택 박스 */
         .benefits-box {
             background: rgba(255, 255, 255, 0.05);
             border-left: 6px solid #6366F1;
@@ -258,7 +280,6 @@
             letter-spacing: -0.02em;
         }
 
-        /* 행사 정보 및 QR 그리드 */
         .info-qr-container {
             border-top: 1px solid rgba(255, 255, 255, 0.15);
             padding-top: 60px;
@@ -296,7 +317,6 @@
             font-weight: 500;
         }
 
-        /* QR 섹션 */
         .qr-section {
             display: flex;
             flex-direction: column;
@@ -330,6 +350,8 @@
             padding: 12px;
             border-radius: 16px;
             box-shadow: 0 10px 40px rgba(99, 102, 241, 0.4);
+            cursor: pointer;
+            position: relative;
         }
 
         .qr-image-box img {
@@ -337,13 +359,36 @@
             height: 100%;
             display: block;
         }
+        
+        /* QR 이미지 교체 안내 툴팁 */
+        .qr-tooltip {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+        .qr-image-box:hover .qr-tooltip {
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
 
-<div class="poster-container">
+<!-- 💡 에디터 안내 패널 (웹 배포 시에는 삭제하셔도 됩니다) -->
+<div class="editor-hint" id="editorHint">
+    <i class="fa-solid fa-pen-to-square"></i> 마우스를 올려 글자를 직접 수정해보세요!
+</div>
+
+<div class="poster-container" id="posterNode">
     
-    <!-- ✨ CSS 기반 고품질 배경 이펙트 (이미지 X) -->
     <div class="ambient-light"></div>
     <div class="cyber-dots"></div>
 
@@ -356,70 +401,67 @@
         <div class="particles p3"></div>
     </div>
 
-    <!-- 텍스트 콘텐츠 영역 -->
+    <!-- 텍스트 콘텐츠 영역 (수정 가능) -->
     <div class="content-area">
         
-        <!-- 상단 헤드라인 -->
         <div class="top-section">
-            <p class="progen-tag">PROGEN</p>
+            <p class="progen-tag" contenteditable="true" spellcheck="false">PROGEN</p>
             
-            <h1 class="main-title">
+            <h1 class="main-title" contenteditable="true" spellcheck="false">
                 AI 시대<br>대학생으로<br>살아남기
             </h1>
             
-            <p class="hook-text">
+            <p class="hook-text" contenteditable="true" spellcheck="false">
                 과제 지옥에서 탈출할 시간.<br>AI에게 대체될 것인가, <strong>AI를 지배할 것인가.</strong>
             </p>
         </div>
 
-        <!-- 하단 정보 영역 -->
         <div class="bottom-section">
             
-            <!-- 혜택 요약 박스 -->
             <div class="benefits-box">
                 <div class="benefit-item">
                     <i class="fa-solid fa-bolt benefit-icon"></i>
-                    <p class="benefit-text">대기업 현직자의 실전 AI 프롬프트 족보 전격 공개</p>
+                    <p class="benefit-text" contenteditable="true" spellcheck="false">대기업 현직자의 실전 AI 프롬프트 족보 전격 공개</p>
                 </div>
                 <div class="benefit-item">
                     <i class="fa-solid fa-book-open benefit-icon"></i>
-                    <p class="benefit-text">단순 툴 강의가 아닌, 실제 과제에 바로 쓰는 예제</p>
+                    <p class="benefit-text" contenteditable="true" spellcheck="false">단순 툴 강의가 아닌, 실제 과제에 바로 쓰는 예제</p>
                 </div>
                 <div class="benefit-item">
                     <i class="fa-solid fa-laptop-code benefit-icon"></i>
-                    <p class="benefit-text">과제·레포트·자소서·기획서 자동화 실전 마스터</p>
+                    <p class="benefit-text" contenteditable="true" spellcheck="false">과제·레포트·자소서·기획서 자동화 실전 마스터</p>
                 </div>
             </div>
 
-            <!-- 행사 정보 및 QR 그리드 -->
             <div class="info-qr-container">
                 <div class="info-grid">
                     <div>
-                        <p class="info-label">DATE</p>
-                        <p class="info-value">03. 28 (토)</p>
+                        <p class="info-label" contenteditable="true">DATE</p>
+                        <p class="info-value" contenteditable="true" spellcheck="false">03. 28 (토)</p>
                     </div>
                     <div>
-                        <p class="info-label">DEADLINE</p>
-                        <p class="info-value">03. 25 (수) 마감</p>
+                        <p class="info-label" contenteditable="true">DEADLINE</p>
+                        <p class="info-value" contenteditable="true" spellcheck="false">03. 25 (수) 마감</p>
                     </div>
                     <div>
-                        <p class="info-label">TARGET</p>
-                        <p class="info-value">100명 한정</p>
+                        <p class="info-label" contenteditable="true">TARGET</p>
+                        <p class="info-value" contenteditable="true" spellcheck="false">100명 한정</p>
                     </div>
                     <div>
-                        <p class="info-label">FEE</p>
-                        <p class="info-value">무료 <span class="info-sub">(보증금 환불)</span></p>
+                        <p class="info-label" contenteditable="true">FEE</p>
+                        <p class="info-value" contenteditable="true" spellcheck="false">무료 <span class="info-sub">(보증금 환불)</span></p>
                     </div>
                 </div>
                 
-                <!-- QR 코드 스캔 유도 -->
                 <div class="qr-section">
                     <div class="qr-text-box">
-                        <p class="qr-title">지금 바로 신청하기</p>
-                        <p class="qr-desc">스마트폰 카메라로 스캔</p>
+                        <p class="qr-title" contenteditable="true" spellcheck="false">지금 바로 신청하기</p>
+                        <p class="qr-desc" contenteditable="true" spellcheck="false">스마트폰 카메라로 스캔</p>
                     </div>
-                    <div class="qr-image-box">
-                        <img src="https://placehold.co/300x300/ffffff/000000?text=QR+Code" alt="QR Code">
+                    <!-- 클릭하여 QR 이미지 URL 교체 기능 -->
+                    <div class="qr-image-box" onclick="changeQR()">
+                        <div class="qr-tooltip">클릭해서 QR 교체</div>
+                        <img id="qrImage" src="https://placehold.co/300x300/ffffff/000000?text=QR+Code" alt="QR Code">
                     </div>
                 </div>
             </div>
@@ -427,6 +469,24 @@
         </div>
     </div>
 </div>
+
+<script>
+    // QR 이미지 교체 스크립트
+    function changeQR() {
+        const newUrl = prompt("새로운 QR 코드 이미지의 URL 주소를 입력해주세요:", "https://...");
+        if (newUrl && newUrl.trim() !== "") {
+            document.getElementById('qrImage').src = newUrl;
+        }
+    }
+
+    // 안내 패널 5초 후 자연스럽게 숨기기
+    setTimeout(() => {
+        const hint = document.getElementById('editorHint');
+        hint.style.opacity = '0';
+        hint.style.transition = 'opacity 1s';
+        setTimeout(() => hint.remove(), 1000);
+    }, 5000);
+</script>
 
 </body>
 </html>
