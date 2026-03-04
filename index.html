@@ -20,18 +20,17 @@
             min-height: 100vh;
             margin: 0;
             padding: 40px 0;
-            transition: all 0.3s ease; /* 여백 제거 시 부드러운 전환 효과 */
+            transition: all 0.3s ease;
         }
 
-        /* 화면에서 보기 좋게 축소해주는 래퍼 */
         .preview-wrapper {
             transform-origin: top center;
-            /* 모니터 높이에 맞춰 축소 */
             transform: scale(calc(min(1, (100vh - 80px) / 3508))); 
             transition: transform 0.3s ease;
         }
 
-        /* 💡 진짜 A2 고해상도 규격 (150 DPI 기준) */
+        /* 💡 진짜 A2 고해상도 규격 (150 DPI 기준 - 2480 x 3508) */
+        /* 👉 이 #posterNode 요소 자체를 다운로드 하는 것이 핵심입니다! */
         #posterNode {
             width: 2480px;
             height: 3508px;
@@ -46,7 +45,7 @@
         }
 
         /* =========================================
-           인쇄용 고해상도 배경 이펙트 (애니메이션 제거)
+           인쇄용 고해상도 배경 이펙트
            ========================================= */
         .ambient-light {
             position: absolute;
@@ -92,7 +91,6 @@
                 inset 0 0 150px rgba(139, 92, 246, 0.4);
         }
 
-        /* 고정된 그라데이션 링 */
         .singularity-ring::before {
             content: '';
             position: absolute;
@@ -167,7 +165,6 @@
             text-shadow: 0 0 30px rgba(139, 92, 246, 0.6);
         }
 
-        /* 💡 행사 목적을 명확히 보여주는 네온 배지 */
         .workshop-badge {
             display: inline-block;
             border: 4px solid #8B5CF6;
@@ -321,6 +318,7 @@
             padding: 20px;
             border-radius: 24px;
             box-shadow: 0 15px 50px rgba(99, 102, 241, 0.5);
+            cursor: pointer;
         }
 
         .qr-image-box img {
@@ -329,97 +327,88 @@
             display: block;
         }
 
-        /* =========================================
-           🖨️ 인쇄 및 추출용 컨트롤 패널 & Print 설정
-           ========================================= */
+        [contenteditable="true"]:hover {
+            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            cursor: text;
+        }
+        [contenteditable="true"]:focus {
+            outline: none;
+            box-shadow: 0 0 0 6px #6366F1;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 12px;
+        }
+
+        /* 추출 전용 컨트롤 패널 */
         .control-panel {
             position: fixed;
             bottom: 30px;
             right: 30px;
-            background: rgba(17, 24, 39, 0.9);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 20px;
+            background: rgba(17, 24, 39, 0.95);
+            border: 1px solid rgba(99, 102, 241, 0.5);
+            padding: 24px;
             border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.8);
             z-index: 1000;
             display: flex;
             flex-direction: column;
             gap: 12px;
             backdrop-filter: blur(10px);
             font-family: 'Pretendard', sans-serif;
+            width: 320px;
         }
 
-        .control-panel p {
+        .control-panel h3 {
             color: white;
-            margin: 0 0 5px 0;
+            margin: 0 0 10px 0;
             font-weight: 800;
-            font-size: 14px;
+            font-size: 16px;
             text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 10px;
+        }
+        
+        .control-panel p {
+            color: #a1a1aa;
+            font-size: 13px;
+            margin: 0 0 10px 0;
+            line-height: 1.5;
         }
 
         .btn {
             background: #6366F1;
             color: white;
             border: none;
-            padding: 12px 20px;
+            padding: 14px 20px;
             border-radius: 10px;
-            font-weight: 700;
+            font-weight: 800;
             cursor: pointer;
             transition: all 0.2s;
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 8px;
-            font-size: 14px;
+            font-size: 15px;
+            width: 100%;
         }
 
-        .btn:hover { background: #4f46e5; transform: translateY(-2px); }
-        .btn-outline { background: transparent; border: 1px solid #6366F1; color: #a5b4fc; }
-        .btn-outline:hover { background: rgba(99, 102, 241, 0.1); }
-
-        /* PDF 인쇄(Ctrl+P) 시 여백 제거 및 A2 규격 강제 적용 */
-        @media print {
-            @page {
-                size: 420mm 594mm; /* 정확한 A2 규격 */
-                margin: 0 !important; /* 브라우저 기본 여백 제거 */
-            }
-            body {
-                background-color: #030108;
-                padding: 0;
-                margin: 0;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-            .preview-wrapper {
-                transform: none !important;
-                width: 100%;
-                height: 100%;
-            }
-            #posterNode {
-                box-shadow: none !important;
-                width: 100%;
-                height: 100%;
-            }
-            .control-panel {
-                display: none !important;
-            }
-        }
+        .btn:hover { background: #4f46e5; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(99,102,241,0.4); }
     </style>
 </head>
 <body>
 
-<!-- 💡 인쇄/추출 컨트롤 패널 -->
+<!-- 💡 에러 방지를 위해 PDF 버튼 삭제, 확실한 추출 모드 진입 버튼만 남김 -->
 <div class="control-panel" id="controlPanel">
-    <p>🖨️ A2 포스터 추출 메뉴</p>
-    <button class="btn" onclick="window.print()">
-        <i class="fa-solid fa-file-pdf"></i> PDF로 저장 (인쇄소 제출용)
-    </button>
-    <button class="btn btn-outline" onclick="removeMarginsForCapture()">
-        <i class="fa-solid fa-crop-simple"></i> 화면 캡처용 여백 제거
+    <h3>🖨️ A2 인쇄 원본 추출하기</h3>
+    <p>브라우저 확대/축소(돋보기)를 쓰지 마세요!<br>아래 버튼을 누르고 안내를 따라주세요.</p>
+    <button class="btn" onclick="prepareForNodeCapture()">
+        <i class="fa-solid fa-camera"></i> 완벽한 원본 추출 모드 켜기
     </button>
 </div>
 
 <div class="preview-wrapper" id="previewWrapper">
-    <!-- 이 박스가 실제 A2 사이즈 규격(2480 x 3508)을 가진 원본입니다 -->
+    <!-- 🚨 바로 이 요소(#posterNode) 전체를 다운받는 것이 목표입니다! -->
     <div id="posterNode">
         <div class="ambient-light"></div>
         <div class="cyber-dots"></div>
@@ -435,14 +424,14 @@
 
         <div class="content-area">
             <div class="top-section">
-                <p class="progen-tag">PROGEN</p>
-                <!-- 💡 추가됨: 워크숍 타이틀 배지 -->
-                <div class="workshop-badge">대학생 실전 AI툴 워크숍</div>
-                <h1 class="main-title">
+                <p class="progen-tag" contenteditable="true" spellcheck="false">PROGEN</p>
+                <div class="workshop-badge" contenteditable="true" spellcheck="false">대학생 실전 AI툴 워크숍</div>
+                <h1 class="main-title" contenteditable="true" spellcheck="false">
                     AI 시대<br>대학생으로<br>살아남기
                 </h1>
-                <p class="hook-text">
-                    과제 지옥에서 탈출할 시간.<br>AI에게 대체될 것인가, <strong>AI를 지배할 것인가.</strong>
+                <p class="hook-text" contenteditable="true" spellcheck="false">
+                    AI에게 대체될 것인가, <strong>AI를 리드할 것인가.</strong><br>
+                    AI로 '시간'을 벌고 '진짜 중요한 것'에 투자하는 법
                 </p>
             </div>
 
@@ -450,46 +439,45 @@
                 <div class="benefits-box">
                     <div class="benefit-item">
                         <i class="fa-solid fa-bolt benefit-icon"></i>
-                        <p class="benefit-text">대기업 현직자의 실전 AI 프롬프트 족보 전격 공개</p>
+                        <p class="benefit-text" contenteditable="true" spellcheck="false">대기업 현직자의 실전 AI 프롬프트 족보 전격 공개</p>
                     </div>
                     <div class="benefit-item">
                         <i class="fa-solid fa-book-open benefit-icon"></i>
-                        <p class="benefit-text">단순 툴 강의가 아닌, 실제 과제에 바로 쓰는 예제</p>
+                        <p class="benefit-text" contenteditable="true" spellcheck="false">단순 툴 강의가 아닌, 실제 과제에 바로 쓰는 예제</p>
                     </div>
                     <div class="benefit-item">
                         <i class="fa-solid fa-laptop-code benefit-icon"></i>
-                        <p class="benefit-text">과제·레포트·자소서·기획서 자동화 실전 마스터</p>
+                        <p class="benefit-text" contenteditable="true" spellcheck="false">과제·레포트·자소서·기획서 자동화 실전 마스터</p>
                     </div>
                 </div>
 
                 <div class="info-qr-container">
                     <div class="info-grid">
                         <div>
-                            <p class="info-label">DATE</p>
-                            <p class="info-value">03. 28 (토)</p>
+                            <p class="info-label" contenteditable="true">DATE</p>
+                            <p class="info-value" contenteditable="true" spellcheck="false">03. 28 (토)</p>
                         </div>
                         <div>
-                            <p class="info-label">DEADLINE</p>
-                            <p class="info-value">03. 25 (수) 마감</p>
+                            <p class="info-label" contenteditable="true">DEADLINE</p>
+                            <p class="info-value" contenteditable="true" spellcheck="false">03. 25 (수) 마감</p>
                         </div>
                         <div>
-                            <p class="info-label">TARGET</p>
-                            <p class="info-value">100명 한정</p>
+                            <p class="info-label" contenteditable="true">TARGET</p>
+                            <p class="info-value" contenteditable="true" spellcheck="false">100명 한정</p>
                         </div>
                         <div>
-                            <p class="info-label">FEE</p>
-                            <p class="info-value">무료 <span class="info-sub">(보증금 환불)</span></p>
+                            <p class="info-label" contenteditable="true">FEE</p>
+                            <p class="info-value" contenteditable="true" spellcheck="false">무료 <span class="info-sub">(보증금 환불)</span></p>
                         </div>
                     </div>
                     
                     <div class="qr-section">
                         <div class="qr-text-box">
-                            <p class="qr-title">지금 바로 신청하기</p>
-                            <p class="qr-desc">스마트폰 카메라로 스캔</p>
+                            <p class="qr-title" contenteditable="true" spellcheck="false">지금 바로 신청하기</p>
+                            <p class="qr-desc" contenteditable="true" spellcheck="false">스마트폰 카메라로 스캔</p>
                         </div>
-                        <div class="qr-image-box">
-                            <!-- 💡 실제 사이트 주소가 연동된 QR 코드 이미지 -->
-                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=https://progen-web.vercel.app/" alt="PROGEN 신청 QR 코드">
+                        <div class="qr-image-box" onclick="changeQR()" title="클릭해서 QR코드 변경">
+                            <img id="qrImage" src="https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=https://progen-web.vercel.app/" alt="PROGEN 신청 QR 코드">
                         </div>
                     </div>
                 </div>
@@ -499,22 +487,32 @@
 </div>
 
 <script>
-    // 캡처를 위해 여백 제거하는 함수
-    function removeMarginsForCapture() {
-        // 1. 바디 배경색을 포스터와 똑같이 맞추고 패딩(여백) 제거
+    function changeQR() {
+        const newUrl = prompt("새로운 QR 코드 이미지의 URL 주소를 입력해주세요:", "https://...");
+        if (newUrl && newUrl.trim() !== "") {
+            document.getElementById('qrImage').src = newUrl;
+        }
+    }
+
+    // 완벽한 캡처 환경 조성
+    function prepareForNodeCapture() {
+        // 배경과 여백을 싹 다 날리고 도화지(Body) 사이즈를 포스터와 완전히 동일하게 묶어버림
         document.body.style.backgroundColor = '#030108';
         document.body.style.padding = '0';
+        document.body.style.margin = '0';
+        document.body.style.display = 'block'; 
+        document.body.style.width = '2480px';
+        document.body.style.height = '3508px';
         
-        // 2. 화면에 맞게 축소해두었던 스케일링 원상복구
-        document.getElementById('previewWrapper').style.transform = 'none';
+        const wrapper = document.getElementById('previewWrapper');
+        wrapper.style.transform = 'none'; // 화면 축소 끄기
         
-        // 3. 포스터에 들어간 그림자 효과 제거
-        document.getElementById('posterNode').style.boxShadow = 'none';
+        const poster = document.getElementById('posterNode');
+        poster.style.boxShadow = 'none'; // 바깥 그림자 끄기
         
-        // 4. 컨트롤 패널 숨기기
         document.getElementById('controlPanel').style.display = 'none';
         
-        alert("바깥 여백이 모두 제거되고 100% 원본 사이즈로 커졌습니다!\n\n이제 사용하시는 크롬의 [전체 화면 캡처] 기능을 쓰시면 여백 없이 깔끔하게 저장됩니다.\n(원래 화면으로 돌아가려면 '새로고침'을 누르세요)");
+        alert("✔️ 원본 크기 변환 완료!\n화면이 엄청나게 커졌습니다. 이제 아래 4단계를 따라주세요.\n\n1. 키보드 [F12] 를 누릅니다.\n2. 키보드 [Ctrl + Shift + P] 를 누릅니다.\n3. 영어로 'node' 라고 칩니다.\n4. 'Capture node screenshot'을 클릭합니다.\n\n그러면 완벽한 A2 사이즈 PNG가 다운로드됩니다!");
     }
 </script>
 
