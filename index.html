@@ -20,13 +20,15 @@
             min-height: 100vh;
             margin: 0;
             padding: 40px 0;
+            transition: all 0.3s ease; /* 여백 제거 시 부드러운 전환 효과 */
         }
 
-        /* 화면에서 보기 좋게 축소해주는 래퍼 (실제 캡처엔 영향 없음) */
+        /* 화면에서 보기 좋게 축소해주는 래퍼 */
         .preview-wrapper {
             transform-origin: top center;
             /* 모니터 높이에 맞춰 축소 */
             transform: scale(calc(min(1, (100vh - 80px) / 3508))); 
+            transition: transform 0.3s ease;
         }
 
         /* 💡 진짜 A2 고해상도 규격 (150 DPI 기준) */
@@ -40,6 +42,7 @@
             flex-direction: column;
             font-family: 'Pretendard', sans-serif;
             box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+            transition: box-shadow 0.3s ease;
         }
 
         /* =========================================
@@ -164,7 +167,7 @@
             text-shadow: 0 0 30px rgba(139, 92, 246, 0.6);
         }
 
-        /* 💡 NEW: 행사 목적을 명확히 보여주는 네온 배지 */
+        /* 💡 행사 목적을 명확히 보여주는 네온 배지 */
         .workshop-badge {
             display: inline-block;
             border: 4px solid #8B5CF6;
@@ -191,7 +194,6 @@
         }
 
         .hook-text {
-            /* 💡 배경에 묻히지 않도록 완전한 흰색으로 변경하고, 이중 진한 그림자 부여 */
             color: #ffffff; 
             font-size: 68px;
             font-weight: 500;
@@ -202,7 +204,6 @@
         }
 
         .hook-text strong {
-            /* 💡 핑크색 대신 PROGEN 브랜드 톤에 맞는 화사한 보라색으로 통일 */
             color: #A855F7; 
             font-weight: 800;
             text-shadow: 0 5px 20px rgba(0, 0, 0, 0.8);
@@ -327,11 +328,97 @@
             height: 100%;
             display: block;
         }
+
+        /* =========================================
+           🖨️ 인쇄 및 추출용 컨트롤 패널 & Print 설정
+           ========================================= */
+        .control-panel {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(17, 24, 39, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            backdrop-filter: blur(10px);
+            font-family: 'Pretendard', sans-serif;
+        }
+
+        .control-panel p {
+            color: white;
+            margin: 0 0 5px 0;
+            font-weight: 800;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .btn {
+            background: #6366F1;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .btn:hover { background: #4f46e5; transform: translateY(-2px); }
+        .btn-outline { background: transparent; border: 1px solid #6366F1; color: #a5b4fc; }
+        .btn-outline:hover { background: rgba(99, 102, 241, 0.1); }
+
+        /* PDF 인쇄(Ctrl+P) 시 여백 제거 및 A2 규격 강제 적용 */
+        @media print {
+            @page {
+                size: 420mm 594mm; /* 정확한 A2 규격 */
+                margin: 0 !important; /* 브라우저 기본 여백 제거 */
+            }
+            body {
+                background-color: #030108;
+                padding: 0;
+                margin: 0;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            .preview-wrapper {
+                transform: none !important;
+                width: 100%;
+                height: 100%;
+            }
+            #posterNode {
+                box-shadow: none !important;
+                width: 100%;
+                height: 100%;
+            }
+            .control-panel {
+                display: none !important;
+            }
+        }
     </style>
 </head>
 <body>
 
-<div class="preview-wrapper">
+<!-- 💡 인쇄/추출 컨트롤 패널 -->
+<div class="control-panel" id="controlPanel">
+    <p>🖨️ A2 포스터 추출 메뉴</p>
+    <button class="btn" onclick="window.print()">
+        <i class="fa-solid fa-file-pdf"></i> PDF로 저장 (인쇄소 제출용)
+    </button>
+    <button class="btn btn-outline" onclick="removeMarginsForCapture()">
+        <i class="fa-solid fa-crop-simple"></i> 화면 캡처용 여백 제거
+    </button>
+</div>
+
+<div class="preview-wrapper" id="previewWrapper">
     <!-- 이 박스가 실제 A2 사이즈 규격(2480 x 3508)을 가진 원본입니다 -->
     <div id="posterNode">
         <div class="ambient-light"></div>
@@ -401,7 +488,7 @@
                             <p class="qr-desc">스마트폰 카메라로 스캔</p>
                         </div>
                         <div class="qr-image-box">
-                            <!-- 💡 실제 사이트 주소가 연동된 QR 코드 이미지로 교체 완료 -->
+                            <!-- 💡 실제 사이트 주소가 연동된 QR 코드 이미지 -->
                             <img src="https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=https://progen-web.vercel.app/" alt="PROGEN 신청 QR 코드">
                         </div>
                     </div>
@@ -410,6 +497,26 @@
         </div>
     </div>
 </div>
+
+<script>
+    // 캡처를 위해 여백 제거하는 함수
+    function removeMarginsForCapture() {
+        // 1. 바디 배경색을 포스터와 똑같이 맞추고 패딩(여백) 제거
+        document.body.style.backgroundColor = '#030108';
+        document.body.style.padding = '0';
+        
+        // 2. 화면에 맞게 축소해두었던 스케일링 원상복구
+        document.getElementById('previewWrapper').style.transform = 'none';
+        
+        // 3. 포스터에 들어간 그림자 효과 제거
+        document.getElementById('posterNode').style.boxShadow = 'none';
+        
+        // 4. 컨트롤 패널 숨기기
+        document.getElementById('controlPanel').style.display = 'none';
+        
+        alert("바깥 여백이 모두 제거되고 100% 원본 사이즈로 커졌습니다!\n\n이제 사용하시는 크롬의 [전체 화면 캡처] 기능을 쓰시면 여백 없이 깔끔하게 저장됩니다.\n(원래 화면으로 돌아가려면 '새로고침'을 누르세요)");
+    }
+</script>
 
 </body>
 </html>
