@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PROGEN A2 Print Poster</title>
+    <title>PROGEN AI Poster | Web Edition</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;800&display=swap" rel="stylesheet">
@@ -13,40 +13,33 @@
         * { box-sizing: border-box; }
 
         body {
-            background-color: #1e293b;
+            background-color: #030108;
             display: flex;
             justify-content: center;
-            align-items: flex-start;
+            align-items: center;
             min-height: 100vh;
             margin: 0;
-            padding: 40px 0;
-            transition: all 0.3s ease;
+            padding: 10px;
+            font-family: 'Pretendard', sans-serif;
+            color: white;
+            overflow-x: hidden;
         }
 
-        .preview-wrapper {
-            transform-origin: top center;
-            transform: scale(calc(min(1, (100vh - 80px) / 3508))); 
-            transition: transform 0.3s ease;
-        }
-
-        /* 💡 진짜 A2 고해상도 규격 (150 DPI 기준 - 2480 x 3508) */
-        /* 👉 이 #posterNode 요소 자체를 다운로드 하는 것이 핵심입니다! */
+        /* 가로 480px 너비 컴팩트 컨테이너 */
         #posterNode {
-            width: 2480px;
-            height: 3508px;
+            width: 100%;
+            max-width: 480px;
             background-color: #030108;
             position: relative;
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            font-family: 'Pretendard', sans-serif;
-            box-shadow: 0 40px 100px rgba(0,0,0,0.8);
-            transition: box-shadow 0.3s ease;
+            border-radius: 12px;
+            box-shadow: 0 20px 50px rgba(0,0,0,1), 0 0 20px rgba(99, 102, 241, 0.1);
+            aspect-ratio: 1 / 1.414;
         }
 
-        /* =========================================
-           인쇄용 고해상도 배경 이펙트
-           ========================================= */
+        /* 배경 이펙트 */
         .ambient-light {
             position: absolute;
             inset: 0;
@@ -59,356 +52,296 @@
         .cyber-dots {
             position: absolute;
             inset: 0;
-            background-image: radial-gradient(rgba(255, 255, 255, 0.15) 3px, transparent 3px);
-            background-size: 80px 80px;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 25px 25px;
             z-index: 2;
-            opacity: 0.4;
+            opacity: 0.2;
             mask-image: radial-gradient(ellipse at center, transparent 20%, black 100%);
             -webkit-mask-image: radial-gradient(ellipse at center, transparent 20%, black 100%);
         }
 
+        /* 중앙 싱귤래리티 디자인 */
         .singularity-container {
             position: absolute;
-            top: 48%;
+            top: 50%; 
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 1800px;
-            height: 1800px;
+            width: 100%;
+            aspect-ratio: 1;
             z-index: 3;
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
+        @keyframes rotateRing {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* 💡 중앙 구체(링)의 크기를 58% -> 45%로 대폭 축소하여 압박감 해소 */
         .singularity-ring {
             position: absolute;
-            width: 1200px;
-            height: 1200px;
+            width: 45%;
+            height: 45%;
             border-radius: 50%;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 
-                0 0 250px rgba(99, 102, 241, 0.5),
-                inset 0 0 150px rgba(139, 92, 246, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 0 40px rgba(99, 102, 241, 0.3), inset 0 0 15px rgba(139, 92, 246, 0.2);
         }
 
         .singularity-ring::before {
             content: '';
             position: absolute;
-            inset: -30px;
+            inset: -5px;
             border-radius: 50%;
             background: conic-gradient(
                 from 45deg, 
                 transparent 0%, 
-                rgba(99, 102, 241, 0.9) 15%, 
+                rgba(99, 102, 241, 0.8) 15%, 
                 #ffffff 20%,
-                transparent 40%, 
+                transparent 40% , 
                 transparent 50%, 
-                rgba(139, 92, 246, 0.9) 65%, 
+                rgba(139, 92, 246, 0.8) 65%, 
                 #ffffff 70%,
                 transparent 90%
             );
             mask-image: radial-gradient(transparent 68%, black 69%);
             -webkit-mask-image: radial-gradient(transparent 68%, black 69%);
+            animation: rotateRing 12s linear infinite;
         }
 
         .singularity-core {
             position: absolute;
-            width: 1160px;
-            height: 1160px;
+            width: 43.5%; 
+            height: 43.5%;
             border-radius: 50%;
             background: #030108;
-            box-shadow: inset 0 0 100px rgba(0,0,0,1);
+            box-shadow: inset 0 0 15px rgba(0,0,0,1);
             z-index: 4;
         }
 
         .singularity-flare {
             position: absolute;
-            width: 180%;
-            height: 15px;
-            background: radial-gradient(ellipse at center, rgba(168, 85, 247, 1) 0%, rgba(99, 102, 241, 0.6) 40%, transparent 70%);
+            width: 120%; 
+            height: 2px;
+            background: radial-gradient(ellipse at center, rgba(168, 85, 247, 0.8) 0%, rgba(99, 102, 241, 0.4) 40%, transparent 70%);
             transform: rotate(-15deg);
-            filter: blur(8px);
+            filter: blur(2px);
             z-index: 5;
+            opacity: 0.6;
+        }
+
+        /* 콘텐츠 영역 - 전체적인 여백(Padding)을 넓혀서 우아한 느낌 강조 */
+        .content-area {
+            position: relative;
+            z-index: 10;
+            padding: 50px 35px 30px 35px;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            flex-grow: 1;
+            background: linear-gradient(to bottom, rgba(3,1,8,0.8) 0%, transparent 35%, transparent 65%, rgba(3,1,8,0.8) 100%);
+        }
+
+        .progen-tag {
+            font-family: 'Poppins', 'Pretendard', sans-serif;
+            color: rgba(139, 92, 246, 0.8);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 5px;
+            margin: 0 0 10px 0;
+            text-transform: uppercase;
+            text-align: center;
+            width: 100%;
+        }
+
+        .workshop-highlight-container {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        /* 💡 뱃지 디자인 트렌디하고 세련되게 전면 개편 */
+        .workshop-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(168, 85, 247, 0.1);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            padding: 5px 14px;
+            border-radius: 100px;
+            color: #e9d5ff; /* 연한 보라색 텍스트 */
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            box-shadow: 
+                0 4px 15px rgba(0, 0, 0, 0.5), 
+                inset 0 0 10px rgba(168, 85, 247, 0.1);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        /* 💡 뱃지 옆에 반짝이는 네온 포인트 추가 */
+        .badge-dot {
+            width: 6px;
+            height: 6px;
+            background-color: #d8b4fe;
+            border-radius: 50%;
+            box-shadow: 0 0 8px 2px rgba(168, 85, 247, 0.8);
+        }
+
+        /* 메인 타이틀 - 과했던 폰트 크기를 줄여 여백 확보 (42px -> 30px) */
+        .main-title {
+            font-size: 30px;
+            font-weight: 800;
+            line-height: 1.2;
+            letter-spacing: 0.02em; 
+            margin: 0 0 16px 0;
+            color: #ffffff;
+            text-shadow: 
+                0 0 10px rgba(168, 85, 247, 0.5),
+                0 4px 12px rgba(0, 0, 0, 0.9),
+                0 0 30px rgba(0,0,0,0.8);
+        }
+
+        /* 훅 텍스트 - 상단부 크기 다이어트 (16px -> 13px) */
+        .hook-text {
+            color: rgba(255, 255, 255, 1); 
+            font-size: 13px;
+            font-weight: 500;
+            line-height: 1.6;
+            margin: 0;
+            text-shadow: 
+                0 2px 4px rgba(0,0,0,1),
+                0 0 10px rgba(0,0,0,0.8),
+                0 0 2px rgba(0,0,0,1);
+        }
+
+        /* 강조 문구 - 요청하신 보라색 톤 적용 및 발광 효과 */
+        .hook-text strong {
+            color: #C084FC; 
+            font-weight: 800;
+            text-shadow: 
+                0 0 15px rgba(168, 85, 247, 0.7),
+                0 0 2px rgba(0,0,0,1);
+        }
+
+        .bottom-section {
+            margin-top: auto; 
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .benefits-box {
+            background: rgba(255, 255, 255, 0.04);
+            border-left: 3px solid #6366F1;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            border-radius: 0 10px 10px 0;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            margin-bottom: 8px;
+        }
+
+        .benefit-item { display: flex; align-items: center; gap: 10px; }
+        .benefit-icon { color: #6366F1; font-size: 12px; width: 16px; text-align: center; }
+        
+        /* 💡 혜택 텍스트 - 전체적인 크기 축소 (14px -> 12px) */
+        .benefit-text { 
+            color: #e4e4e7; 
+            font-size: 12px; 
+            font-weight: 600; 
+            margin: 0; 
+            letter-spacing: 0.025em;
+        }
+
+        .info-qr-container {
+            border-top: 1px solid rgba(255, 255, 255, 0.12);
+            padding-top: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-top: 4px;
+        }
+
+        .info-grid { 
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            flex-grow: 1;
+            padding-top: 6px; 
+        }
+
+        .info-row {
+            display: grid;
+            grid-template-columns: 160px 1fr;
+            gap: 0px;
+        }
+
+        .info-label { 
+            color: #6366F1; 
+            font-size: 8px; 
+            font-weight: 700; 
+            letter-spacing: 2px; 
+            margin-bottom: 2px; 
+        }
+
+        /* 💡 하단 정보 값 텍스트 축소 (18px -> 14px) */
+        .info-value { 
+            color: #ffffff; 
+            font-size: 14px; 
+            font-weight: 800; 
+            margin: 0; 
+            line-height: 1.2; 
+            white-space: nowrap;
+        }
+
+        .qr-section { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; margin-left: 15px; }
+        .qr-text-group { text-align: right; }
+        .qr-title { color: #ffffff; font-weight: 800; font-size: 11px; margin-bottom: 2px; white-space: nowrap; line-height: 1.2; }
+        .qr-subtitle { color: rgba(255, 255, 255, 0.6); font-weight: 500; font-size: 8px; margin: 0; white-space: nowrap; }
+        
+        /* 💡 QR 영역 전체 축소 */
+        .qr-image-box { 
+            width: 65px; 
+            height: 65px; 
+            background: #ffffff; 
+            padding: 4px; 
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(99, 102, 241, 0.3);
+        }
+        .qr-image-box img { width: 100%; height: 100%; display: block; }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.1); }
         }
 
         .particles {
             position: absolute;
             background: white;
             border-radius: 50%;
-            box-shadow: 0 0 30px 8px rgba(255,255,255,0.9);
             z-index: 6;
+            animation: twinkle 3s infinite ease-in-out;
         }
-        .p1 { top: 25%; left: 35%; width: 20px; height: 20px; opacity: 0.8; }
-        .p2 { top: 65%; left: 75%; width: 25px; height: 25px; opacity: 0.6; }
-        .p3 { top: 55%; left: 20%; width: 15px; height: 15px; opacity: 0.9; }
+        .p1 { top: 25%; left: 35%; width: 2.5px; height: 2.5px; animation-delay: 0s; }
+        .p2 { top: 65%; left: 75%; width: 3.5px; height: 3.5px; animation-delay: 1s; }
+        .p3 { top: 55%; left: 20%; width: 2px; height: 2px; animation-delay: 2s; }
+        .p4 { top: 15%; left: 60%; width: 3px; height: 3px; animation-delay: 0.5s; }
 
-        /* ========================================= */
-
-        .content-area {
-            position: relative;
-            z-index: 10;
-            padding: 220px 160px;
-            display: flex;
-            flex-direction: column;
-            height: 100%;
+        @media (max-height: 700px) {
+            .main-title { font-size: 28px; margin-bottom: 12px; }
+            .content-area { padding: 30px 25px; }
+            .info-value { font-size: 15px; }
         }
-
-        .top-section { text-align: left; }
-
-        .progen-tag {
-            font-family: 'Poppins', sans-serif;
-            color: #8B5CF6;
-            font-size: 56px;
-            font-weight: 800;
-            letter-spacing: 30px;
-            margin: 0 0 50px 0;
-            text-shadow: 0 0 30px rgba(139, 92, 246, 0.6);
-        }
-
-        .workshop-badge {
-            display: inline-block;
-            border: 4px solid #8B5CF6;
-            padding: 18px 50px;
-            border-radius: 100px;
-            color: #ffffff;
-            font-size: 42px;
-            font-weight: 700;
-            letter-spacing: 3px;
-            margin-bottom: 50px;
-            background: rgba(139, 92, 246, 0.15);
-            box-shadow: 0 0 40px rgba(139, 92, 246, 0.4), inset 0 0 20px rgba(139, 92, 246, 0.3);
-            backdrop-filter: blur(10px);
-        }
-
-        .main-title {
-            color: #FFFFFF;
-            font-size: 210px;
-            font-weight: 800;
-            line-height: 1.15;
-            letter-spacing: -0.04em;
-            margin: 0 0 70px 0;
-            text-shadow: 0 15px 50px rgba(99, 102, 241, 0.8), 0 4px 15px rgba(0,0,0,0.8);
-        }
-
-        .hook-text {
-            color: #ffffff; 
-            font-size: 68px;
-            font-weight: 500;
-            line-height: 1.6;
-            letter-spacing: -0.01em;
-            margin: 0;
-            text-shadow: 0 10px 30px rgba(0,0,0,0.9), 0 2px 10px rgba(0,0,0,0.9);
-        }
-
-        .hook-text strong {
-            color: #A855F7; 
-            font-weight: 800;
-            text-shadow: 0 5px 20px rgba(0, 0, 0, 0.8);
-        }
-
-        .bottom-section {
-            margin-top: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 100px;
-        }
-
-        .benefits-box {
-            background: rgba(255, 255, 255, 0.05);
-            border-left: 12px solid #6366F1;
-            padding: 70px 90px;
-            display: flex;
-            flex-direction: column;
-            gap: 45px;
-            backdrop-filter: blur(30px);
-            border-radius: 0 36px 36px 0;
-            box-shadow: 0 40px 80px rgba(0,0,0,0.6);
-            border-top: 2px solid rgba(255,255,255,0.15);
-            border-right: 2px solid rgba(255,255,255,0.08);
-            border-bottom: 2px solid rgba(255,255,255,0.08);
-        }
-
-        .benefit-item {
-            display: flex;
-            align-items: center;
-            gap: 40px;
-        }
-
-        .benefit-icon {
-            color: #6366F1;
-            font-size: 60px;
-            width: 70px;
-            text-align: center;
-            text-shadow: 0 0 25px rgba(99, 102, 241, 0.6);
-        }
-
-        .benefit-text {
-            color: #f4f4f5;
-            font-size: 54px;
-            font-weight: 600;
-            margin: 0;
-            letter-spacing: -0.02em;
-        }
-
-        .info-qr-container {
-            border-top: 2px solid rgba(255, 255, 255, 0.15);
-            padding-top: 90px;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-        }
-
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 80px 120px;
-        }
-
-        .info-label {
-            font-family: 'Poppins', sans-serif;
-            color: #6366F1;
-            font-size: 36px;
-            font-weight: 700;
-            letter-spacing: 5px;
-            margin: 0 0 20px 0;
-        }
-
-        .info-value {
-            color: #ffffff;
-            font-size: 68px;
-            font-weight: 800;
-            margin: 0;
-            letter-spacing: -0.02em;
-        }
-
-        .info-sub {
-            font-size: 38px;
-            color: #a1a1aa;
-            font-weight: 500;
-        }
-
-        .qr-section {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 30px;
-        }
-
-        .qr-text-box { text-align: right; }
-
-        .qr-title {
-            color: #ffffff;
-            font-weight: 800;
-            font-size: 50px;
-            margin: 0 0 15px 0;
-            letter-spacing: -0.02em;
-        }
-
-        .qr-desc {
-            color: #a1a1aa;
-            font-size: 38px;
-            margin: 0;
-            font-weight: 500;
-        }
-
-        .qr-image-box {
-            width: 350px;
-            height: 350px;
-            background: #ffffff;
-            padding: 20px;
-            border-radius: 24px;
-            box-shadow: 0 15px 50px rgba(99, 102, 241, 0.5);
-            cursor: pointer;
-        }
-
-        .qr-image-box img {
-            width: 100%;
-            height: 100%;
-            display: block;
-        }
-
-        [contenteditable="true"]:hover {
-            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.3);
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            cursor: text;
-        }
-        [contenteditable="true"]:focus {
-            outline: none;
-            box-shadow: 0 0 0 6px #6366F1;
-            background: rgba(0, 0, 0, 0.6);
-            border-radius: 12px;
-        }
-
-        /* 추출 전용 컨트롤 패널 */
-        .control-panel {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: rgba(17, 24, 39, 0.95);
-            border: 1px solid rgba(99, 102, 241, 0.5);
-            padding: 24px;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.8);
-            z-index: 1000;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            backdrop-filter: blur(10px);
-            font-family: 'Pretendard', sans-serif;
-            width: 320px;
-        }
-
-        .control-panel h3 {
-            color: white;
-            margin: 0 0 10px 0;
-            font-weight: 800;
-            font-size: 16px;
-            text-align: center;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding-bottom: 10px;
-        }
-        
-        .control-panel p {
-            color: #a1a1aa;
-            font-size: 13px;
-            margin: 0 0 10px 0;
-            line-height: 1.5;
-        }
-
-        .btn {
-            background: #6366F1;
-            color: white;
-            border: none;
-            padding: 14px 20px;
-            border-radius: 10px;
-            font-weight: 800;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            font-size: 15px;
-            width: 100%;
-        }
-
-        .btn:hover { background: #4f46e5; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(99,102,241,0.4); }
     </style>
 </head>
 <body>
 
-<!-- 💡 에러 방지를 위해 PDF 버튼 삭제, 확실한 추출 모드 진입 버튼만 남김 -->
-<div class="control-panel" id="controlPanel">
-    <h3>🖨️ A2 인쇄 원본 추출하기</h3>
-    <p>브라우저 확대/축소(돋보기)를 쓰지 마세요!<br>아래 버튼을 누르고 안내를 따라주세요.</p>
-    <button class="btn" onclick="prepareForNodeCapture()">
-        <i class="fa-solid fa-camera"></i> 완벽한 원본 추출 모드 켜기
-    </button>
-</div>
-
-<div class="preview-wrapper" id="previewWrapper">
-    <!-- 🚨 바로 이 요소(#posterNode) 전체를 다운받는 것이 목표입니다! -->
     <div id="posterNode">
         <div class="ambient-light"></div>
         <div class="cyber-dots"></div>
@@ -420,18 +353,21 @@
             <div class="particles p1"></div>
             <div class="particles p2"></div>
             <div class="particles p3"></div>
+            <div class="particles p4"></div>
         </div>
 
         <div class="content-area">
             <div class="top-section">
-                <p class="progen-tag" contenteditable="true" spellcheck="false">PROGEN</p>
-                <div class="workshop-badge" contenteditable="true" spellcheck="false">대학생 실전 AI툴 워크숍</div>
-                <h1 class="main-title" contenteditable="true" spellcheck="false">
-                    AI 시대<br>대학생으로<br>살아남기
-                </h1>
-                <p class="hook-text" contenteditable="true" spellcheck="false">
-                    AI에게 대체될 것인가, <strong>AI를 리드할 것인가.</strong><br>
-                    AI로 '시간'을 벌고 '진짜 중요한 것'에 투자하는 법
+                <div class="workshop-highlight-container">
+                    <div class="workshop-badge">
+                        <div class="badge-dot"></div>
+                        대학생 실전 AI툴 워크숍
+                    </div>
+                </div>
+                <h1 class="main-title">AI 시대<br>대학생으로<br>살아남기</h1>
+                <p class="hook-text">
+                    과제 지옥에서 탈출할 시간.<br>
+                    AI에게 대체될 것인가, <strong>AI를 지배할 것인가.</strong>
                 </p>
             </div>
 
@@ -439,82 +375,58 @@
                 <div class="benefits-box">
                     <div class="benefit-item">
                         <i class="fa-solid fa-bolt benefit-icon"></i>
-                        <p class="benefit-text" contenteditable="true" spellcheck="false">대기업 현직자의 실전 AI 프롬프트 족보 전격 공개</p>
+                        <p class="benefit-text">대기업 현직자의 실전 AI 프롬프트 족보 전격 공개</p>
                     </div>
                     <div class="benefit-item">
                         <i class="fa-solid fa-book-open benefit-icon"></i>
-                        <p class="benefit-text" contenteditable="true" spellcheck="false">단순 툴 강의가 아닌, 실제 과제에 바로 쓰는 예제</p>
+                        <p class="benefit-text">단순 툴 강의가 아닌, 실제 과제에 바로 쓰는 예제</p>
                     </div>
                     <div class="benefit-item">
                         <i class="fa-solid fa-laptop-code benefit-icon"></i>
-                        <p class="benefit-text" contenteditable="true" spellcheck="false">과제·레포트·자소서·기획서 자동화 실전 마스터</p>
+                        <p class="benefit-text">과제·레포트·자소서·기획서 자동화 실전 마스터</p>
                     </div>
                 </div>
 
                 <div class="info-qr-container">
                     <div class="info-grid">
-                        <div>
-                            <p class="info-label" contenteditable="true">DATE</p>
-                            <p class="info-value" contenteditable="true" spellcheck="false">03. 28 (토)</p>
+                        <div class="info-row">
+                            <div>
+                                <p class="info-label">DATE</p>
+                                <p class="info-value">03. 28 (토)</p>
+                            </div>
+                            <div>
+                                <p class="info-label">PLACE</p>
+                                <p class="info-value">충남대학교</p>
+                            </div>
                         </div>
-                        <div>
-                            <p class="info-label" contenteditable="true">DEADLINE</p>
-                            <p class="info-value" contenteditable="true" spellcheck="false">03. 25 (수) 마감</p>
-                        </div>
-                        <div>
-                            <p class="info-label" contenteditable="true">TARGET</p>
-                            <p class="info-value" contenteditable="true" spellcheck="false">100명 한정</p>
-                        </div>
-                        <div>
-                            <p class="info-label" contenteditable="true">FEE</p>
-                            <p class="info-value" contenteditable="true" spellcheck="false">무료 <span class="info-sub">(보증금 환불)</span></p>
+                        
+                        <div class="info-row">
+                            <div>
+                                <p class="info-label">DEADLINE</p>
+                                <p class="info-value">03. 26 (목) 신청 마감</p>
+                            </div>
+                            <div>
+                                <p class="info-label">TARGET</p>
+                                <p class="info-value">선착순 100명</p>
+                            </div>
                         </div>
                     </div>
                     
                     <div class="qr-section">
-                        <div class="qr-text-box">
-                            <p class="qr-title" contenteditable="true" spellcheck="false">지금 바로 신청하기</p>
-                            <p class="qr-desc" contenteditable="true" spellcheck="false">스마트폰 카메라로 스캔</p>
+                        <div class="qr-text-group">
+                            <p class="qr-title">지금 바로 신청하기</p>
+                            <p class="qr-subtitle">스마트폰 카메라로 스캔</p>
                         </div>
-                        <div class="qr-image-box" onclick="changeQR()" title="클릭해서 QR코드 변경">
-                            <img id="qrImage" src="https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=https://progen-web.vercel.app/" alt="PROGEN 신청 QR 코드">
+                        <div class="qr-image-box">
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://progen-web.vercel.app/" alt="QR Code">
                         </div>
                     </div>
                 </div>
+
+                <p class="progen-tag">주최 PROGEN</p>
             </div>
         </div>
     </div>
-</div>
-
-<script>
-    function changeQR() {
-        const newUrl = prompt("새로운 QR 코드 이미지의 URL 주소를 입력해주세요:", "https://...");
-        if (newUrl && newUrl.trim() !== "") {
-            document.getElementById('qrImage').src = newUrl;
-        }
-    }
-
-    // 완벽한 캡처 환경 조성
-    function prepareForNodeCapture() {
-        // 배경과 여백을 싹 다 날리고 도화지(Body) 사이즈를 포스터와 완전히 동일하게 묶어버림
-        document.body.style.backgroundColor = '#030108';
-        document.body.style.padding = '0';
-        document.body.style.margin = '0';
-        document.body.style.display = 'block'; 
-        document.body.style.width = '2480px';
-        document.body.style.height = '3508px';
-        
-        const wrapper = document.getElementById('previewWrapper');
-        wrapper.style.transform = 'none'; // 화면 축소 끄기
-        
-        const poster = document.getElementById('posterNode');
-        poster.style.boxShadow = 'none'; // 바깥 그림자 끄기
-        
-        document.getElementById('controlPanel').style.display = 'none';
-        
-        alert("✔️ 원본 크기 변환 완료!\n화면이 엄청나게 커졌습니다. 이제 아래 4단계를 따라주세요.\n\n1. 키보드 [F12] 를 누릅니다.\n2. 키보드 [Ctrl + Shift + P] 를 누릅니다.\n3. 영어로 'node' 라고 칩니다.\n4. 'Capture node screenshot'을 클릭합니다.\n\n그러면 완벽한 A2 사이즈 PNG가 다운로드됩니다!");
-    }
-</script>
 
 </body>
 </html>
