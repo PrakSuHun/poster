@@ -1,37 +1,37 @@
-export default async function handler(req, res) {
-  // 🌟 CORS 설정: 다른 도메인(사이트 주소)에서 API를 호출할 수 있도록 허용
+module.exports = async function handler(req, res) {
+  // 🌟 CORS 설정: 다른 도메인에서도 API 호출 가능하도록 허용
   res.setHeader('Access-Control-Allow-Credentials', true);
-  res.setHeader('Access-Control-Allow-Origin', '*'); // 특정 사이트만 허용하려면 '*' 대신 'https://프론트엔드주소.com'을 입력하세요.
+  res.setHeader('Access-Control-Allow-Origin', '*'); 
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
   res.setHeader(
     'Access-Control-Allow-Headers',
     'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
   );
 
-  // 🌟 브라우저의 사전 요청(Preflight OPTIONS) 처리
+  // 🌟 브라우저 사전 요청 처리
   if (req.method === 'OPTIONS') {
     res.status(200).end();
     return;
   }
 
-  // POST 요청만 허용
   if (req.method !== 'POST') {
     return res.status(405).json({ message: '허용되지 않은 메서드입니다.' });
   }
 
-  // 💡 프론트엔드에서 데이터 받기 (개인정보 동의 항목은 여기서 제외되어 노션에 저장되지 않습니다)
+  // 💡 프론트엔드에서 4가지 데이터만 받습니다 (개인정보 동의는 노션에 안 넘김)
   const { name, phone, project, motivation } = req.body;
 
   const notionApiKey = process.env.NOTION_API_KEY;
-  const databaseId = process.env.NOTION_DATABASE_ID; // 기존 행사 신청 데이터베이스 ID
+  // Vercel 환경변수(NOTION_DATABASE_ID)를 사용하거나, 없을 경우 알려주신 새 ID를 기본값으로 사용
+  const databaseId = process.env.NOTION_DATABASE_ID || "327c7b1d26a280459263d769f1735884";
 
-  if (!notionApiKey || !databaseId) {
-    return res.status(500).json({ message: '서버 설정 오류' });
+  if (!notionApiKey) {
+    return res.status(500).json({ message: '서버 설정 오류: 노션 API 키가 없습니다.' });
   }
 
   try {
-    // 1️⃣ 기존 데이터베이스에서 해당 연락처를 가진 사람 검색 (Query)
-    const queryResponse = await fetch(`https://api.notion.com/v1/databases/${databaseId}/query`, {
+    // 🚀 새 데이터베이스에 새로운 줄(Page) 생성하기
+    const response = await fetch('https://api.notion.com/v1/pages', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${notionApiKey}`,
@@ -39,56 +39,27 @@ export default async function handler(req, res) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        filter: {
-          property: "연락처",
-          rich_text: {
-            equals: phone // 폼에서 입력한 연락처와 정확히 일치하는 행 찾기
-          }
-        }
-      })
-    });
-
-    const queryData = await queryResponse.json();
-
-    if (!queryResponse.ok) {
-      throw new Error('노션 데이터베이스 검색 실패');
-    }
-
-    // 일치하는 연락처가 없는 경우 (현장에 예매 없이 온 사람 등)
-    if (queryData.results.length === 0) {
-      return res.status(404).json({ message: '기존 행사 신청 내역을 찾을 수 없습니다. 연락처를 확인해주세요.' });
-    }
-
-    // 2️⃣ 일치하는 데이터가 있다면, 해당 줄의 페이지 ID를 가져와서 덮어쓰기 (Update/Patch)
-    const pageId = queryData.results[0].id;
-
-    const updateResponse = await fetch(`https://api.notion.com/v1/pages/${pageId}`, {
-      method: 'PATCH',
-      headers: {
-        'Authorization': `Bearer ${notionApiKey}`,
-        'Notion-Version': '2022-06-28',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
+        parent: { database_id: databaseId },
         properties: {
-          // 🚨 기존 노션 DB에 아래 3가지 컬럼이 추가되어 있어야 합니다.
-          "크루 지원": { checkbox: true }, // 지원여부 O 표시 (체크박스)
-          "기대 되는 프로젝트": { select: { name: project } }, // 선택한 프로젝트명 (선택 속성)
-          "지원 동기": { rich_text: [ { text: { content: motivation } } ] } // 지원 동기 텍스트
+          "이름": { title: [ { text: { content: name } } ] },
+          "연락처": { rich_text: [ { text: { content: phone } } ] },
+          "기대 되는 프로젝트": { select: { name: project } },
+          "지원 동기": { rich_text: [ { text: { content: motivation } } ] }
         }
       })
     });
 
-    if (!updateResponse.ok) {
-      const errorData = await updateResponse.json();
-      console.error('Update Error:', errorData);
-      return res.status(updateResponse.status).json({ message: '노션 업데이트 중 오류 발생' });
+    const data = await response.json();
+
+    if (!response.ok) {
+      console.error('Notion API Error:', data);
+      return res.status(400).json({ message: '노션 저장 실패: ' + data.message });
     }
 
-    return res.status(200).json({ message: '성공적으로 신청 및 업데이트 되었습니다.' });
+    return res.status(200).json({ message: '성공적으로 신청되었습니다.' });
     
   } catch (error) {
     console.error('Server Error:', error);
-    return res.status(500).json({ message: '내부 서버 오류' });
+    return res.status(500).json({ message: '내부 서버 오류: ' + error.message });
   }
-}
+};
