@@ -3,12 +3,11 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: '허용되지 않은 메서드입니다.' });
   }
 
-  // 프론트엔드에서 간소화된 데이터만 받습니다.
-  const { name, phone, track, motivation } = req.body;
+  // 💡 프론트엔드에서 데이터 받기 (개인정보 동의 항목은 여기서 제외되어 노션에 저장되지 않습니다)
+  const { name, phone, project, motivation } = req.body;
 
   const notionApiKey = process.env.NOTION_API_KEY;
-  // ❗ 기존 3/28 행사 신청자를 받았던 데이터베이스 ID를 그대로 사용하세요.
-  const databaseId = process.env.NOTION_DATABASE_ID; 
+  const databaseId = process.env.NOTION_DATABASE_ID; // 기존 행사 신청 데이터베이스 ID
 
   if (!notionApiKey || !databaseId) {
     return res.status(500).json({ message: '서버 설정 오류' });
@@ -41,8 +40,6 @@ export default async function handler(req, res) {
 
     // 일치하는 연락처가 없는 경우 (현장에 예매 없이 온 사람 등)
     if (queryData.results.length === 0) {
-      // 필요하다면 새로 생성(POST /pages)하게 할 수도 있지만, 
-      // 현재는 "기존 신청자"를 대상으로 하므로 에러를 반환합니다.
       return res.status(404).json({ message: '기존 행사 신청 내역을 찾을 수 없습니다. 연락처를 확인해주세요.' });
     }
 
@@ -58,10 +55,10 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         properties: {
-          // 🚨 기존 노션 DB에 "크루 지원", "지원 파트" 컬럼이 미리 만들어져 있어야 합니다.
+          // 🚨 기존 노션 DB에 아래 3가지 컬럼이 추가되어 있어야 합니다.
           "크루 지원": { checkbox: true }, // 지원여부 O 표시 (체크박스)
-          "지원 파트": { select: { name: track } },
-          "지원 동기": { rich_text: [ { text: { content: motivation } } ] }
+          "기대 되는 프로젝트": { select: { name: project } }, // 선택한 프로젝트명 (선택 속성)
+          "지원 동기": { rich_text: [ { text: { content: motivation } } ] } // 지원 동기 텍스트
         }
       })
     });
