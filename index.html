@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PROGEN | 크루 1기 지원하기</title>
+<title>PROGEN | 1기 지원하기</title>
 
 <!-- 폰트 및 라이브러리 -->
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
@@ -24,91 +24,139 @@ tailwind.config = {
 }
 </script>
 <style>
-  /* 💡 배경색을 보라/남색 톤의 다크 그라데이션으로 변경했습니다 */
+  /* 💡 배경색을 화사하고 밝은 라이트 톤(파스텔 그라데이션)으로 변경했습니다 */
   body { 
-    background-color: #0B0F19; 
-    background-image: radial-gradient(circle at top right, rgba(139, 92, 246, 0.15), transparent 40%), radial-gradient(circle at bottom left, rgba(99, 102, 241, 0.15), transparent 40%);
+    background-color: #F8FAFC; 
+    background-image: radial-gradient(circle at top right, rgba(139, 92, 246, 0.1), transparent 40%), radial-gradient(circle at bottom left, rgba(99, 102, 241, 0.1), transparent 40%);
     background-attachment: fixed;
-    color: #F8FAFC; 
+    color: #111827; 
     -webkit-font-smoothing: antialiased; 
     word-break: keep-all; 
     letter-spacing: -0.02em; 
   }
-  .glass { background: rgba(17, 24, 39, 0.6); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); }
-  .input-field { width: 100%; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 0.75rem; padding: 0.875rem 1rem; color: white; transition: all 0.3s; }
-  .input-field:focus { outline: none; border-color: #8B5CF6; background: rgba(255, 255, 255, 0.1); box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2); }
-  .input-field::placeholder { color: #6B7280; }
-  select.input-field { appearance: none; background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e"); background-repeat: no-repeat; background-position: right 1rem center; background-size: 1em; padding-right: 2.5rem; }
-  select.input-field option { background-color: #111827; color: white; }
+  
+  /* 밝은 테마에 맞춘 글래스모피즘 효과 */
+  .glass { 
+    background: rgba(255, 255, 255, 0.85); 
+    backdrop-filter: blur(16px); 
+    border: 1px solid rgba(255, 255, 255, 1); 
+    box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.08), 0 8px 10px -6px rgba(99, 102, 241, 0.04);
+  }
+  
+  /* 입력 폼 스타일 변경 (흰색 배경, 회색 테두리) */
+  .input-field { 
+    width: 100%; 
+    background: #FFFFFF; 
+    border: 1px solid #E5E7EB; 
+    border-radius: 0.75rem; 
+    padding: 0.875rem 1rem; 
+    color: #1F2937; 
+    transition: all 0.3s; 
+  }
+  .input-field:focus { 
+    outline: none; 
+    border-color: #8B5CF6; 
+    background: #FFFFFF; 
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15); 
+  }
+  .input-field::placeholder { color: #9CA3AF; }
+  
+  /* 셀렉트 박스 화살표 색상 변경 */
+  select.input-field { 
+    appearance: none; 
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e"); 
+    background-repeat: no-repeat; 
+    background-position: right 1rem center; 
+    background-size: 1em; 
+    padding-right: 2.5rem; 
+  }
+  select.input-field option { background-color: #FFFFFF; color: #1F2937; }
+  
   .loader { border: 3px solid rgba(255,255,255,0.3); border-radius: 50%; border-top: 3px solid #fff; width: 24px; height: 24px; animation: spin 1s linear infinite; display: none; }
   @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 </style>
 </head>
 <body class="selection:bg-ai-secondary selection:text-white pb-20">
 
-<nav class="w-full glass border-b border-white/5 sticky top-0 z-50">
+<nav class="w-full glass border-b border-gray-200 sticky top-0 z-50">
   <div class="max-w-3xl mx-auto px-6 h-16 flex items-center justify-between">
     <a href="./index.html" class="font-black text-2xl italic flex items-center">
-      <span class="text-white tracking-tight uppercase">PRO</span><span class="text-ai-secondary tracking-tight uppercase">GEN</span>
+      <span class="text-gray-900 tracking-tight uppercase">PRO</span><span class="text-ai-secondary tracking-tight uppercase">GEN</span>
     </a>
   </div>
 </nav>
 
 <main class="max-w-xl mx-auto px-6 pt-12">
   <div class="text-center mb-10">
-    <div class="inline-block px-3 py-1 mb-3 rounded-full bg-ai-secondary/20 border border-ai-secondary/30 text-ai-secondary text-sm font-bold tracking-wide">
+    <div class="inline-block px-3 py-1 mb-3 rounded-full bg-indigo-50 border border-indigo-100 text-ai-primary text-sm font-bold tracking-wide shadow-sm">
       1st Generation
     </div>
-    <h1 class="text-3xl md:text-4xl font-black mb-4">크루 1기 현장 지원서</h1>
-    <p class="text-gray-400 text-sm md:text-base">기존 행사 신청 시 작성해주신 정보가 연동됩니다.<br>본인 확인 정보와 지원 동기만 간단히 작성해 주세요!</p>
+    <h1 class="text-3xl md:text-4xl font-black mb-4 text-gray-900">PROGEN 1기 지원서</h1>
+    <p class="text-gray-500 text-sm md:text-base">현장 특강에 참여해 주셔서 감사합니다!<br>크루 합류를 위한 필수 정보만 간단하게 작성해 주세요.</p>
   </div>
 
   <form id="applyForm" class="space-y-6">
     
     <!-- 1. 본인 확인 정보 -->
-    <section class="glass p-6 md:p-8 rounded-3xl space-y-5 shadow-lg shadow-black/20">
-      <h2 class="text-xl font-bold text-white flex items-center gap-2 border-b border-white/10 pb-3 mb-4">
+    <section class="glass p-6 md:p-8 rounded-3xl space-y-5">
+      <h2 class="text-xl font-bold text-gray-900 flex items-center gap-2 border-b border-gray-200 pb-3 mb-4">
         <i class="fa-solid fa-user-check text-ai-secondary"></i> 본인 확인
       </h2>
       <div class="space-y-4">
         <div>
-          <label class="block text-sm font-bold text-gray-300 mb-2">이름 <span class="text-red-500">*</span></label>
+          <label class="block text-sm font-bold text-gray-700 mb-2">이름 <span class="text-red-500">*</span></label>
           <input type="text" id="name" required placeholder="홍길동" class="input-field">
         </div>
         <div>
-          <label class="block text-sm font-bold text-gray-300 mb-2">연락처 <span class="text-red-500">*</span></label>
+          <label class="block text-sm font-bold text-gray-700 mb-2">연락처 <span class="text-red-500">*</span></label>
           <input type="tel" id="phone" required placeholder="010-0000-0000" maxlength="13" class="input-field">
-          <p class="text-xs text-ai-secondary mt-2"><i class="fa-solid fa-circle-info"></i> 행사 신청 시 입력한 연락처와 동일하게 입력해 주세요.</p>
+          <p class="text-xs text-ai-primary mt-2"><i class="fa-solid fa-circle-info"></i> 행사 신청 시 입력한 연락처와 동일하게 입력해 주세요.</p>
         </div>
       </div>
     </section>
 
     <!-- 2. 지원 정보 -->
-    <section class="glass p-6 md:p-8 rounded-3xl space-y-5 shadow-lg shadow-black/20">
-      <h2 class="text-xl font-bold text-white flex items-center gap-2 border-b border-white/10 pb-3 mb-4">
+    <section class="glass p-6 md:p-8 rounded-3xl space-y-5">
+      <h2 class="text-xl font-bold text-gray-900 flex items-center gap-2 border-b border-gray-200 pb-3 mb-4">
         <i class="fa-solid fa-fire text-ai-primary"></i> 지원 정보
       </h2>
       <div class="space-y-5">
         <div>
-          <label class="block text-sm font-bold text-gray-300 mb-2">지원 파트 <span class="text-red-500">*</span></label>
-          <select id="track" required class="input-field">
-            <option value="" disabled selected>어떤 분야로 함께하고 싶으신가요?</option>
-            <option value="기획/운영">🎯 기획 / 운영 (PM)</option>
-            <option value="디자인">🎨 디자인 (UI/UX, 콘텐츠)</option>
-            <option value="개발">💻 개발 (프론트/백엔드/AI)</option>
-            <option value="마케팅">📢 마케팅 (홍보, SNS)</option>
+          <label class="block text-sm font-bold text-gray-700 mb-2">가장 기대되는 프로젝트 <span class="text-red-500">*</span></label>
+          <!-- 💡 밸류(value)값과 보여지는 텍스트 모두에서 특수문자를 제거하고 재밌게 구성했습니다 -->
+          <select id="project" required class="input-field">
+            <option value="" disabled selected>어떤 활동이 가장 기대되시나요?</option>
+            <option value="AI 학점 캐리">🔥 시험 벼락치기 끝판왕 AI 툴로 학점 캐리하기</option>
+            <option value="AI 비서 자동화">🚀 귀찮은 작업 1초 컷 수업 녹음 자료조사 자동화</option>
+            <option value="콘텐츠 수익화">🎬 방구석 크리에이터 데뷔 AI 콘텐츠로 수익 창출</option>
+            <option value="굿즈 플리마켓">🛍️ 내 캐릭터가 굿즈로 플리마켓 완판 셀러 도전</option>
+            <option value="모두 기대됨">✨ 하나만 고르기 불가능 전부 다 엄청 기대됨</option>
           </select>
         </div>
 
         <div>
-          <label class="block text-sm font-bold text-gray-300 mb-2">지원 동기 및 포부 <span class="text-red-500">*</span></label>
-          <textarea id="motivation" required rows="4" placeholder="PROGEN 크루에서 어떤 성장을 이루고 싶은지 자유롭게 적어주세요." class="input-field resize-none"></textarea>
+          <label class="block text-sm font-bold text-gray-700 mb-2">지원 동기 및 포부 <span class="text-red-500">*</span></label>
+          <textarea id="motivation" required rows="4" placeholder="PROGEN 1기로서 어떤 성장을 이루고 싶은지 자유롭게 적어주세요." class="input-field resize-none"></textarea>
         </div>
       </div>
     </section>
 
+    <!-- 3. 안내 및 동의 -->
+    <section class="glass p-5 md:p-6 rounded-3xl border border-indigo-50 relative overflow-hidden">
+      <label class="flex items-start gap-3 cursor-pointer group">
+        <div class="relative flex items-center justify-center mt-0.5">
+          <input type="checkbox" id="agree" required class="peer appearance-none w-5 h-5 border-2 border-gray-300 rounded bg-white checked:bg-ai-primary checked:border-ai-primary transition-all cursor-pointer">
+          <i class="fa-solid fa-check absolute text-white text-xs opacity-0 peer-checked:opacity-100 pointer-events-none"></i>
+        </div>
+        <div class="text-sm text-gray-700 transition-colors">
+          <span class="font-bold text-ai-primary">[필수]</span> 개인정보 수집 및 이용 동의<br>
+          <span class="text-xs text-gray-500 mt-1 block">PROGEN 크루 선발, 본인 확인 및 안내 발송을 위해 이름과 연락처를 수집합니다. 수집된 정보는 선발 과정 종료 후 1개월 이내에 안전하게 파기됩니다.</span>
+        </div>
+      </label>
+    </section>
+
     <!-- 제출 버튼 -->
-    <button type="submit" id="submitBtn" class="w-full py-5 bg-gradient-to-r from-ai-secondary to-ai-primary text-white font-black text-xl rounded-2xl hover:shadow-[0_10px_30px_rgba(139,92,246,0.4)] transition-all transform hover:-translate-y-1 flex items-center justify-center gap-2 mt-4">
+    <button type="submit" id="submitBtn" class="w-full py-5 bg-gradient-to-r from-ai-secondary to-ai-primary text-white font-black text-xl rounded-2xl hover:shadow-[0_10px_30px_rgba(139,92,246,0.3)] transition-all transform hover:-translate-y-1 flex items-center justify-center gap-2 mt-4">
       <span id="btnText">지원서 제출하기</span>
       <div id="btnLoader" class="loader" style="width:20px;height:20px;border-width:2.5px;"></div>
     </button>
@@ -116,14 +164,14 @@ tailwind.config = {
 </main>
 
 <!-- 성공 모달 (팝업창) -->
-<div id="successModal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/80 backdrop-blur-sm px-4 opacity-0 transition-opacity duration-300">
-  <div class="glass p-8 rounded-3xl max-w-sm w-full text-center border-ai-secondary/50 shadow-[0_0_40px_rgba(139,92,246,0.2)] transform transition-all scale-95 duration-300" id="modalContent">
-    <div class="w-16 h-16 bg-ai-secondary/20 rounded-full flex items-center justify-center mx-auto mb-5 border border-ai-secondary/50">
+<div id="successModal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-gray-900/60 backdrop-blur-sm px-4 opacity-0 transition-opacity duration-300">
+  <div class="bg-white p-8 rounded-3xl max-w-sm w-full text-center shadow-2xl transform transition-all scale-95 duration-300 border border-gray-100" id="modalContent">
+    <div class="w-16 h-16 bg-indigo-50 rounded-full flex items-center justify-center mx-auto mb-5 border border-indigo-100">
       <i class="fa-solid fa-check text-3xl text-ai-secondary"></i>
     </div>
-    <h3 class="text-2xl font-black text-white mb-3">신청 완료되었습니다!</h3>
-    <p class="text-gray-300 text-sm mb-8 leading-relaxed">
-      PROGEN 크루 합류를 환영합니다.<br>지금 바로 공식 오픈채팅방에 입장해주세요!
+    <h3 class="text-2xl font-black text-gray-900 mb-3">신청 완료되었습니다!</h3>
+    <p class="text-gray-600 text-sm mb-8 leading-relaxed">
+      PROGEN 합류를 환영합니다.<br>지금 바로 공식 오픈채팅방에 입장해주세요!
     </p>
     
     <!-- 🚨 카카오 오픈채팅 링크를 여기에 넣어주세요 -->
@@ -131,7 +179,7 @@ tailwind.config = {
       <i class="fa-solid fa-comment"></i> 오픈채팅방 바로가기
     </a>
     
-    <button type="button" onclick="closeModal()" class="text-gray-500 text-sm hover:text-white transition-colors underline underline-offset-4">
+    <button type="button" onclick="closeModal()" class="text-gray-400 text-sm hover:text-gray-700 transition-colors underline underline-offset-4">
       메인으로 돌아가기
     </button>
   </div>
@@ -191,7 +239,7 @@ tailwind.config = {
     const formData = {
       name: document.getElementById('name').value,
       phone: document.getElementById('phone').value,
-      track: document.getElementById('track').value,
+      project: document.getElementById('project').value,
       motivation: document.getElementById('motivation').value
     };
 
