@@ -1,4 +1,20 @@
 export default async function handler(req, res) {
+  // 🌟 CORS 설정: 다른 도메인(사이트 주소)에서 API를 호출할 수 있도록 허용
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader('Access-Control-Allow-Origin', '*'); // 특정 사이트만 허용하려면 '*' 대신 'https://프론트엔드주소.com'을 입력하세요.
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+  );
+
+  // 🌟 브라우저의 사전 요청(Preflight OPTIONS) 처리
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
+    return;
+  }
+
+  // POST 요청만 허용
   if (req.method !== 'POST') {
     return res.status(405).json({ message: '허용되지 않은 메서드입니다.' });
   }
