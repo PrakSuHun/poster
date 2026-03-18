@@ -112,7 +112,6 @@ tailwind.config = {
         <textarea id="badPoint" required rows="3" placeholder="예: 시간이 조금 더 길었으면 좋겠어요, 와이파이가 느렸어요 등" class="input-field resize-none"></textarea>
       </div>
 
-
     </section>
 
     <!-- 제출 버튼 -->
@@ -195,11 +194,11 @@ tailwind.config = {
     btnText.innerText = '제출 중...';
     btnLoader.style.display = 'block';
 
+    // 💡 에러 원인: 없는 review 요소 값을 가져오려고 해서 발생한 문제를 수정했습니다.
     const formData = {
       gender: document.getElementById('gender').value,
       goodPoint: document.getElementById('goodPoint').value,
-      badPoint: document.getElementById('badPoint').value,
-      review: document.getElementById('review').value
+      badPoint: document.getElementById('badPoint').value
     };
 
     try {
