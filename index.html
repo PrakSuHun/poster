@@ -113,12 +113,6 @@ tailwind.config = {
         <textarea id="badPoint" required rows="3" placeholder="예: 시간이 조금 더 길었으면 좋겠어요, 와이파이가 느렸어요 등" class="input-field resize-none"></textarea>
       </div>
 
-      <!-- 전반적인 후기 -->
-      <div>
-        <label class="block text-sm font-bold text-gray-700 mb-2">전반적인 후기 및 바라는 점 <span class="text-red-500">*</span></label>
-        <textarea id="review" required rows="4" placeholder="자유롭게 후기를 남겨주세요!" class="input-field resize-none"></textarea>
-      </div>
-
     </section>
 
     <!-- 제출 버튼 -->
@@ -145,18 +139,18 @@ tailwind.config = {
       소중한 의견 감사드립니다.<br>여러분의 피드백으로 더 성장하는 PROGEN이 되겠습니다.
     </p>
     
-    <div class="bg-indigo-50 rounded-xl p-4 mb-6 border border-indigo-100">
-      <p class="text-sm font-bold text-ai-primary mb-1">🎁 다음 스텝은?</p>
-      <p class="text-xs text-gray-600">오늘 경험한 AI의 힘, 일회성으로 끝내기 아쉽지 않으신가요? 지금 바로 PROGEN 1기 크루에 합류해서 함께 성장해요!</p>
-    </div>
+    <h3 class="text-2xl font-black text-gray-900 mb-3">신청 완료되었습니다!</h3>
+    <p class="text-gray-600 text-sm mb-8 leading-relaxed">
+      PROGEN 합류를 환영합니다.<br>지금 바로 공식 오픈채팅방에 입장해주세요!
+    </p>
     
-    <!-- 🚨 크루 지원서 링크 연결 (이전에 만든 지원서 html 파일명으로 변경하세요) -->
-    <a href="./apply.html" class="w-full py-4 bg-gray-900 text-white font-black text-lg rounded-xl hover:bg-black transition-all flex items-center justify-center gap-2 shadow-lg mb-3">
-      🚀 PROGEN 1기 크루 신청하기
+    <!-- 🚨 카카오 오픈채팅 링크 연결 완료 -->
+    <a href="https://invite.kakao.com/tc/Y2VGimsEqA" target="_blank" class="w-full py-4 bg-[#FEE500] text-[#191919] font-black text-lg rounded-xl hover:bg-[#FEE500]/90 transition-all flex items-center justify-center gap-2 mb-4 shadow-lg shadow-[#FEE500]/20">
+      <i class="fa-solid fa-comment"></i> 오픈채팅방 바로가기
     </a>
     
     <button type="button" onclick="closeModal()" class="text-gray-400 text-sm hover:text-gray-700 transition-colors underline underline-offset-4">
-      창 닫기
+      메인으로 돌아가기
     </button>
   </div>
 </div>
@@ -204,8 +198,7 @@ tailwind.config = {
     const formData = {
       gender: document.getElementById('gender').value,
       goodPoint: document.getElementById('goodPoint').value,
-      badPoint: document.getElementById('badPoint').value,
-      review: document.getElementById('review').value
+      badPoint: document.getElementById('badPoint').value
     };
 
     try {
