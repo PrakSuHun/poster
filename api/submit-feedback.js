@@ -1,5 +1,5 @@
 module.exports = async function handler(req, res) {
-  // 🌟 CORS 설정: 다른 도메인에서도 API 호출 가능하도록 허용
+  // CORS 설정
   res.setHeader('Access-Control-Allow-Credentials', true);
   res.setHeader('Access-Control-Allow-Origin', '*'); 
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
@@ -8,7 +8,6 @@ module.exports = async function handler(req, res) {
     'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
   );
 
-  // 🌟 브라우저 사전 요청 처리
   if (req.method === 'OPTIONS') {
     res.status(200).end();
     return;
@@ -18,45 +17,33 @@ module.exports = async function handler(req, res) {
     return res.status(405).json({ message: '허용되지 않은 메서드입니다.' });
   }
 
-  // 💡 프론트엔드에서 4가지 데이터만 받습니다 (개인정보 동의는 노션에 안 넘김)
-  const { name, phone, project, motivation } = req.body;
+  const { gender, goodPoint, badPoint, review } = req.body;
 
-  const notionApiKey = process.env.NOTION_API_KEY;
-  // Vercel 환경변수(NOTION_DATABASE_ID)를 사용하거나, 없을 경우 알려주신 새 ID를 기본값으로 사용
-  const databaseId = process.env.NOTION_DATABASE_ID || "327c7b1d26a280459263d769f1735884";
+  // 💡 1. 알려주신 구글 폼 주소를 바탕으로 URL을 세팅해 두었습니다!
+  const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSfKr-3xE4dElJPhOA_8NGTz5sL_HeX1RnWQm8pRIQKuGSGKsg/formResponse";
 
-  if (!notionApiKey) {
-    return res.status(500).json({ message: '서버 설정 오류: 노션 API 키가 없습니다.' });
-  }
+  // 🚨 2. 아래 "111111111" 등의 숫자를 찾으신 entry. 번호로 바꿔주세요!
+  const formData = new URLSearchParams();
+  formData.append("entry.1815884272", gender);      // 성별의 entry 번호
+  formData.append("entry.1910079443", goodPoint);   // 좋았던 점의 entry 번호
+  formData.append("entry.333333333", badPoint);    // 아쉬웠던 점의 entry 번호
+  formData.append("entry.1905868619", review);      // 후기의 entry 번호
 
   try {
-    // 🚀 새 데이터베이스에 새로운 줄(Page) 생성하기
-    const response = await fetch('https://api.notion.com/v1/pages', {
+    const response = await fetch(GOOGLE_FORM_URL, {
       method: 'POST',
+      body: formData,
       headers: {
-        'Authorization': `Bearer ${notionApiKey}`,
-        'Notion-Version': '2022-06-28',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/x-www-form-urlencoded',
       },
-      body: JSON.stringify({
-        parent: { database_id: databaseId },
-        properties: {
-          "이름": { title: [ { text: { content: name } } ] },
-          "연락처": { rich_text: [ { text: { content: phone } } ] },
-          "기대 되는 프로젝트": { select: { name: project } },
-          "지원 동기": { rich_text: [ { text: { content: motivation } } ] }
-        }
-      })
     });
 
-    const data = await response.json();
-
+    // 구글 폼은 성공 시 HTML을 반환하므로 ok 여부만 체크합니다.
     if (!response.ok) {
-      console.error('Notion API Error:', data);
-      return res.status(400).json({ message: '노션 저장 실패: ' + data.message });
+      throw new Error('구글 폼 전송 실패');
     }
 
-    return res.status(200).json({ message: '성공적으로 신청되었습니다.' });
+    return res.status(200).json({ message: '설문이 성공적으로 제출되었습니다.' });
     
   } catch (error) {
     console.error('Server Error:', error);
