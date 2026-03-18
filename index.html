@@ -24,7 +24,6 @@ tailwind.config = {
 }
 </script>
 <style>
-  /* 💡 배경색을 화사하고 밝은 라이트 톤(파스텔 그라데이션)으로 변경했습니다 */
   body { 
     background-color: #F8FAFC; 
     background-image: radial-gradient(circle at top right, rgba(139, 92, 246, 0.1), transparent 40%), radial-gradient(circle at bottom left, rgba(99, 102, 241, 0.1), transparent 40%);
@@ -34,16 +33,12 @@ tailwind.config = {
     word-break: keep-all; 
     letter-spacing: -0.02em; 
   }
-  
-  /* 밝은 테마에 맞춘 글래스모피즘 효과 */
   .glass { 
     background: rgba(255, 255, 255, 0.85); 
     backdrop-filter: blur(16px); 
     border: 1px solid rgba(255, 255, 255, 1); 
     box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.08), 0 8px 10px -6px rgba(99, 102, 241, 0.04);
   }
-  
-  /* 입력 폼 스타일 변경 (흰색 배경, 회색 테두리) */
   .input-field { 
     width: 100%; 
     background: #FFFFFF; 
@@ -60,8 +55,6 @@ tailwind.config = {
     box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15); 
   }
   .input-field::placeholder { color: #9CA3AF; }
-  
-  /* 셀렉트 박스 화살표 색상 변경 */
   select.input-field { 
     appearance: none; 
     background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e"); 
@@ -71,7 +64,6 @@ tailwind.config = {
     padding-right: 2.5rem; 
   }
   select.input-field option { background-color: #FFFFFF; color: #1F2937; }
-  
   .loader { border: 3px solid rgba(255,255,255,0.3); border-radius: 50%; border-top: 3px solid #fff; width: 24px; height: 24px; animation: spin 1s linear infinite; display: none; }
   @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 </style>
@@ -92,7 +84,8 @@ tailwind.config = {
       1st Generation
     </div>
     <h1 class="text-3xl md:text-4xl font-black mb-4 text-gray-900">PROGEN 1기 지원서</h1>
-    <p class="text-gray-500 text-sm md:text-base">현장 특강에 참여해 주셔서 감사합니다!<br>크루 합류를 위한 필수 정보만 간단하게 작성해 주세요.</p>
+    <!-- 💡 연동 안내 문구 제거 및 자연스러운 환영 문구로 변경 -->
+    <p class="text-gray-500 text-sm md:text-base">현장 특강에 참여해 주셔서 감사합니다!<br>크루 합류를 위한 필수 정보와 지원 동기를 작성해 주세요.</p>
   </div>
 
   <form id="applyForm" class="space-y-6">
@@ -110,7 +103,6 @@ tailwind.config = {
         <div>
           <label class="block text-sm font-bold text-gray-700 mb-2">연락처 <span class="text-red-500">*</span></label>
           <input type="tel" id="phone" required placeholder="010-0000-0000" maxlength="13" class="input-field">
-          <p class="text-xs text-ai-primary mt-2"><i class="fa-solid fa-circle-info"></i> 행사 신청 시 입력한 연락처와 동일하게 입력해 주세요.</p>
         </div>
       </div>
     </section>
@@ -123,7 +115,6 @@ tailwind.config = {
       <div class="space-y-5">
         <div>
           <label class="block text-sm font-bold text-gray-700 mb-2">가장 기대되는 프로젝트 <span class="text-red-500">*</span></label>
-          <!-- 💡 밸류(value)값과 보여지는 텍스트 모두에서 특수문자를 제거하고 재밌게 구성했습니다 -->
           <select id="project" required class="input-field">
             <option value="" disabled selected>어떤 활동이 가장 기대되시나요?</option>
             <option value="AI 학점 캐리">🔥 시험 벼락치기 끝판왕 AI 툴로 학점 캐리하기</option>
@@ -244,23 +235,25 @@ tailwind.config = {
     };
 
     try {
-      // 🚀 실제 API 연동 시 아래 주석 해제 (테스트용 setTimeout은 삭제)
-      /*
+      // 💡 주석 완전 해제! 백엔드 API로 데이터 전송
       const response = await fetch('/api/submit-crew', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
       });
-      const result = await response.json();
-      if (!response.ok) throw new Error(result.message);
-      */
       
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      const result = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(result.message || '서버 오류');
+      }
+      
+      // 전송 성공 시 팝업 열기
       showModal();
       
     } catch (error) {
       console.error('Error:', error);
-      alert('제출 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.\n(기존 신청 내역이 없는 경우일 수 있습니다.)');
+      alert('신청 처리 중 오류가 발생했습니다.\n' + error.message);
       submitBtn.disabled = false;
       submitBtn.classList.remove('opacity-70', 'cursor-not-allowed');
       btnText.innerText = '지원서 제출하기';
