@@ -26,9 +26,8 @@ module.exports = async function handler(req, res) {
   const formData = new URLSearchParams();
   formData.append("entry.1815884272", gender);      // 성별의 entry 번호
   formData.append("entry.1910079443", goodPoint);   // 좋았던 점의 entry 번호
-  formData.append("entry.333333333", badPoint);    // 아쉬웠던 점의 entry 번호
-  formData.append("entry.1905868619", review);      // 후기의 entry 번호
-
+  formData.append("entry.1905868619", badPoint);    // 아쉬웠던 점의 entry 번호
+  
   try {
     const response = await fetch(GOOGLE_FORM_URL, {
       method: 'POST',
